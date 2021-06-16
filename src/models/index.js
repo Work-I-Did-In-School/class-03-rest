@@ -8,8 +8,17 @@ const DATABASE_URL = process.env.DATABASE_URL || 'sqlite:memory:';
 const { Sequelize, DataTypes} = require('sequelize');
 const foodModel = require('./food.js');
 
+
+
 // analogous to the express()
-let sequelize = new Sequelize(DATABASE_URL);
+let sequelize = new Sequelize(DATABASE_URL, {
+  dialectOptions: {
+    ssl: {
+      require: true,
+      rejectUnauthorized: false,
+    }
+  }
+});
 
 // modify the sequelize object using a model.
 const food = foodModel(sequelize,  DataTypes);
